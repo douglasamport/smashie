@@ -1,0 +1,37 @@
+body {
+    box-sizing: border-box;
+}
+
+.terra {
+    height: 50px;
+    width: 50px;
+    display: flex;
+}
+
+.mobs {
+    height: 40px;
+    width: 40px;
+    margin: auto;
+    position: absolute;
+}
+
+.hero {
+    background-color: red;
+}
+
+.orc {
+    background-color: black;
+}
+
+.grass {
+    background-color: #90EE90;
+}
+
+.dirt {
+    background-color: #987654;
+}
+
+.flexRow {
+    display: flex;
+    flex-flow: row;
+}
