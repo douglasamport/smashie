@@ -3,7 +3,8 @@ class Mob {
     static allMobs = [];
     constructor(position, id = this.#randomId()) {
         this.id = id
-        this.position = position
+        this.position = position;
+        this.target = position;
         Mob.allMobs.push(this)
     }
 
@@ -11,10 +12,53 @@ class Mob {
        return (Mob.allMobs.length + 1).toString().padStart(4, '0')
     }
 
-    set setPosition(pos) {
+    setPosition(pos) {
         this.position = pos
-        
     }
+
+    setTarget(pos) {
+        this.target = pos
+    }
+
+    test() {
+        let count = 0
+        while (count < 10) {
+            console.log(count)
+            count++
+        }
+    }
+
+    move() {
+        let count = 0 
+        while (!this.arrayEquals(this.target, this.position) && count < 1000) {
+            console.log('moving')
+            let xDiff = this.target[0] - this.position[0]
+            let xSign = Math.sign(xDiff)
+            let xMoveMod = Math.abs(xDiff) >= 10 ? 10 : Math.abs(xDiff)
+            
+            let yDiff = this.target[1] - this.position[1]
+            let ySign = Math.sign(yDiff)
+            let yMoveMod = Math.abs(yDiff) >= 10 ? 10 : Math.abs(yDiff)
+
+            let newPos = [(parseInt(this.position[0])+(xMoveMod*xSign)), (parseInt(this.position[1])+(yMoveMod*ySign)) ]
+            console.log(newPos, this.target, this.position)
+            this.setPosition(newPos)
+            display.renderMobs(Mob.allMobs)
+            
+
+            count++
+
+        }
+    }
+
+    arrayEquals(a, b) {
+        return Array.isArray(a) &&
+            Array.isArray(b) &&
+            a.length === b.length &&
+            a.every((val, index) => val === b[index]);
+        }
+
+
 
 }
 

@@ -3,13 +3,12 @@ const display = (() => {
     const renderMobs = function (mobArr) {
         removeMobs()
         let container = document.getElementById('gameboardContainer')
-        let rowNodes = container.children
-        let rowsArr = [...rowNodes]
         mobArr.forEach(mob => {
-            let hostTerra = [...(rowsArr[mob.position[0]].children)][mob.position[1]]
             let mobDiv = document.createElement('div')
             mobDiv.classList.add(mob.type, 'mobs')
-            hostTerra.appendChild(mobDiv)
+            mobDiv.style.left = `${mob.position[0]}px`
+            mobDiv.style.top = `${mob.position[1]}px`
+            container.appendChild(mobDiv)
         });
     }
 
