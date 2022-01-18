@@ -6,6 +6,7 @@ const display = (() => {
         mobArr.forEach(mob => {
             let mobDiv = document.createElement('div')
             mobDiv.classList.add(mob.type, 'mobs')
+            mobDiv.id = mob.uniqId
             mobDiv.style.left = `${mob.position[0]}px`
             mobDiv.style.top = `${mob.position[1]}px`
             container.appendChild(mobDiv)
