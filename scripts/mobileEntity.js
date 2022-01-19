@@ -47,26 +47,32 @@ class Mob {
     move() {
         // let count = 0 
         
-        console.log(this.target, this.position)
-        console.log(this.arrayEquals(this.target, this.position))
+        // console.log(this.target, this.position)
+        // console.log(this.arrayEquals(this.target, this.position))
 
         
         if(this.arrayEquals(this.target, this.position)) {
+            console.log(`${this.name} arrived at ${this.position}`)
+            display.renderText(`${this.name} arrived at ${this.position}`)
+
             this.actionArr.shift()
             return;
         }
         
-        console.log('moving')
+        
+        // console.log('moving')
         let xDiff = this.target[0] - this.position[0]
         let xSign = Math.sign(xDiff)
-        let xMoveMod = Math.abs(xDiff) >= 10 ? 10 : Math.abs(xDiff)
+        // let xMoveMod = Math.abs(xDiff) >= 10 ? 10 : Math.abs(xDiff)
         
         let yDiff = this.target[1] - this.position[1]
         let ySign = Math.sign(yDiff)
-        let yMoveMod = Math.abs(yDiff) >= 10 ? 10 : Math.abs(yDiff)
+        // let yMoveMod = Math.abs(yDiff) >= 10 ? 10 : Math.abs(yDiff)
 
-        let newPos = [(parseInt(this.position[0])+(xMoveMod*xSign)), (parseInt(this.position[1])+(yMoveMod*ySign)) ]
-        console.log(newPos, this.target, this.position)
+        // let newPos = [(parseInt(this.position[0])+(xMoveMod*xSign)), (parseInt(this.position[1])+(yMoveMod*ySign)) ]
+        let newPos = [(parseInt(this.position[0])+xSign), (parseInt(this.position[1])+ySign) ]
+
+        // console.log(this.target, this.position)
         this.setPosition(newPos)
         display.renderMobs(Mob.allMobs)
 
@@ -81,8 +87,8 @@ class Mob {
 }
 
 class Humanoid extends Mob {
-    constructor(position, id) {
-        super(position, id)
+    constructor(position, uniqId) {
+        super(position, uniqId)
         this.strength = this.#randomRoll();
         this.dexterity = this.#randomRoll();
     }
@@ -104,10 +110,10 @@ class Humanoid extends Mob {
 }
 
 class Hero extends Humanoid {
-    constructor(position, id, strength, dexterity) {
-        super(position, id, strength, dexterity)
+    constructor(position, uniqId, strength, dexterity) {
+        super(position, uniqId, strength, dexterity)
         this.type = 'hero'
-        this.name = this.type + this.id
+        this.name = this.type + this.uniqId
         this.color = 'red';
         Mob.hero = this
     }
@@ -115,10 +121,10 @@ class Hero extends Humanoid {
 }
 
 class Orc extends Humanoid {
-    constructor(position, id, strength, dexterity) {
-        super(position, id, strength, dexterity) 
+    constructor(position, uniqId, strength, dexterity) {
+        super(position, uniqId, strength, dexterity) 
         this.type = 'orc'
-        this.name = this.type + this.id
+        this.name = this.type + this.uniqId
         super.updateStrength(1)
         super.updateDexterity(-1)
         this.color = 'black'
@@ -128,9 +134,9 @@ class Orc extends Humanoid {
 
 
 class Monster extends Mob {
-    constructor(position, type, id) {
-        super(position, id)
+    constructor(position, type, uniqId) {
+        super(position, uniqId)
         this.type = type
-        this.name = this.type + this.id
+        this.name = this.type + this.uniqId
     }
 }

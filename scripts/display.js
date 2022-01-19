@@ -3,17 +3,20 @@ const display = (() => {
     const renderMobs = function (mobArr) {
         removeMobs()
         let container = document.getElementById('gameboardContainer')
-        mobArr.forEach(mob => {
-            let mobDiv = document.createElement('div')
-            mobDiv.classList.add(mob.type, 'mobs')
-            mobDiv.id = mob.uniqId
-            mobDiv.style.left = `${mob.position[0]}px`
-            mobDiv.style.top = `${mob.position[1]}px`
-            container.appendChild(mobDiv)
-        });
+        let host =
+            // console.log(host, 'this is the children')
+            mobArr.forEach(mob => {
+                let mobDiv = document.createElement('div')
+                mobDiv.classList.add(mob.type, 'mobs')
+                mobDiv.id = mob.uniqId
+                let host = document.getElementById(mob.position.join('-'))
+
+                host.appendChild(mobDiv)
+                // container.appendChild(mobDiv)
+            });
     }
 
-    const removeMobs = function() {
+    const removeMobs = function () {
         let container = document.getElementById('gameboardContainer')
         let mobDivs = container.querySelectorAll('.mobs')
         mobDivs.forEach(mob => mob.remove())
@@ -21,28 +24,36 @@ const display = (() => {
 
 
 
-    
     const render = function (board) {
         let parent = document.getElementById('gameboardContainer')
-        board.forEach(arr => {
+        board.forEach((arr) => {
             let row = document.createElement('div')
             row.classList.add('flexRow')
-            arr.forEach(itm => {
+            arr.forEach((itm) => {
                 // console.log(itm)
-                terrainDiv(row, 'terra', itm.type)
+                terrainDiv(row, 'terra', itm.type, `${itm.yPos}-${itm.xPos}`)
+
             })
             parent.appendChild(row)
         })
     }
 
-    const terrainDiv = (rowParent, size, type) => {
+    const renderText = (str) => {
+        let container = document.getElementById('activity')
+        let newText = document.createElement('p')
+        newText.innerText = `${str}`
+        container.prepend(newText)
+    }
+
+    const terrainDiv = (rowParent, size, type, id) => {
         let newDiv = document.createElement('div')
         newDiv.classList.add(size, type)
+        newDiv.id = id
         rowParent.appendChild(newDiv)
 
     }
 
 
-    return { render, renderMobs }
+    return { render, renderMobs, renderText }
 })();
 

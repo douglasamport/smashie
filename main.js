@@ -1,9 +1,11 @@
 
 
 const gameboard = new Board()
-let jim = new Hero([40, 40], 'jim')
+let jim = new Hero([0, 0], 'jim')
 // new Orc([300, 200])
-new Orc([340, 240])
+
+let sam = new Orc([8, 8])
+// console.log(sam)
 // console.log(Mob.hero)
 
 // console.log(gameboard.boardArr)
@@ -15,8 +17,8 @@ display.renderMobs(Mob.allMobs)
 
 function baselineListener(e) {
     console.log(e.target)
-    console.log(e.target.id)
-    console.log([...e.target.classList].includes('mobs'))
+    // console.log(e.target.id)
+    // console.log([...e.target.classList].includes('mobs'))
 
     if ([...e.target.classList].includes('mobs') && Logic.activeMob == null) {
         
@@ -24,6 +26,9 @@ function baselineListener(e) {
         let activeMob = Mob.allMobs.find((mob) => mob.uniqId ==  e.target.id)
         
         Logic.activeMob = activeMob
+        let msg = `${activeMob.name} is active`
+        console.log(msg)
+        display.renderText(msg)
 
         removeEventListener('click', baselineListener)
 
@@ -33,11 +38,16 @@ function baselineListener(e) {
 }
 
 function targetListener(e) {
-    console.log(Logic.activeMob)
-    Logic.activeMob.setTarget([e.x, e.y])
-    Logic.activeMob.actionArr.push(Logic.activeMob.move.bind(Logic.activeMob))
-    //need to empty the active Mob slot
-    //need to make this able to move and attack
+    let mob = Logic.activeMob
+    console.log(e.target.id.split('-'))
+    let targetArr = e.target.id.split('-').map(x=> parseInt(x))
+    mob.setTarget([targetArr[0], targetArr[1]])
+    mob.actionArr.push(mob.move.bind(mob))
+    console.log(`${mob.name} is on the move to ${mob.position}`)
+    display.renderText(`${mob.name} is on the move to ${mob.position}`)
+
+
+
     Logic.activeMob = null
     removeEventListener('click', targetListener)
     addEventListener('click', baselineListener)
